@@ -85,11 +85,20 @@ include 'connection.php';
    echo' <p class="card-text"><b>Product Description: </b>'.@$productdesc.' <br><b>Product Category: </b>'.@$productcat.'</p>';
    echo'<b> Seller Info</b>';echo'<p class="card-text"><b>Seller name: </b>' .@$sellername.'<br><b>Phone no: </b>' .@$sellercontact. '</p>';
 //    echo' <p class="card-text">'.$productcat.'</p>';
-   echo'<button name="add" id="clk" onclick="myFunction()"  class="btn btn-light" data-toggle="modal" data-target="#myModal">Add to cart</button>';
+  //  echo'<button name="add" id="clk" onclick="myFunction()"  class="btn btn-light" data-toggle="modal" data-target="#myModal">Add to cart</button>';
    echo '<a href="https://wa.me/234' . $sellercontact . '?text=Hello%20I%20want%20make%20enquires%20on%20'.$productname.'%20in category '.$productcat.'" class="btn btn-light">Contact seller</a>';
+  echo ' <form  method="post" name="submitfor" id="submitfor">
+        <input type="text" name="product_id" value="'.$productid.'" hidden>
+        <input type="text" name="product_name" value="'.$productname.'" hidden>
+        <input type="text" name="product_price" value="'.$productprice.'" hidden>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" value="1" min="1">
+        <button id="submi" type="submit"  class="btn btn-light">Add to Cart</button>
+    </form>';
+    echo'<div id="result"></div>';
    echo'</div>';
   echo'</div>';
-// echo'</a>';
+
                echo'</div>';
         }
 
@@ -115,6 +124,25 @@ if(isset($_POST['add'])){
 
 
         ?>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#submi').click(function(e){
+            // e.preventDefault();
+            // .click('#submit');
+            $.ajax({
+                url: "addcart.php",
+                type: "POST",
+                data: $('#submitfor').serialize(),
+                success: function(response){
+                    $("#result").html(response);
+                }
+            });
+            return false;
+        });
+    });
+    </script>  
+
         <script>
 function myFunction() {
 //   alert('successfully added to cart');
